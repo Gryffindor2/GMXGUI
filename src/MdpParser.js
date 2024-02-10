@@ -35,7 +35,6 @@ class MdpParser{
                 var key = this.mdp[i].sectionData[j].name;
                 var value = this.mdp[i].sectionData[j].value;
 
-                console.log(key, value);
                 if(value != null && value != '' && value != this.mdp[i].sectionData[j].defaultValue){
                     result += key + "=" + value + "\n";
                 }

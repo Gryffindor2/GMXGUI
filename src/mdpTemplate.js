@@ -19,7 +19,7 @@ var mdpTemplate = [
     },
     {
         "sectionName": "Run control",
-        "sectionActivated": true,
+        "sectionActivated": false,
         "sectionData": [
             {
                 "name": "integrator",
@@ -71,19 +71,19 @@ var mdpTemplate = [
         "sectionActivated": false,
         "sectionData": [
             {
-                "name": "gen_temp",
+                "name": "gen-temp",
                 "candidate": [""],
                 "defaultValue": "",
                 "comment": "temperature"
             },
             {
-                "name": "gen_seed",
+                "name": "gen-seed",
                 "candidate": [""],
                 "defaultValue": "",
                 "comment": "random seed"
             },
             {
-                "name": "gen_vel",
+                "name": "gen-vel",
                 "candidate": ["yes", "no", ""],
                 "defaultValue": "no",
                 "comment": "random seed"
@@ -148,6 +148,30 @@ var mdpTemplate = [
                 "defaultValue": "1",
                 "comment": "[nm] distance for the LJ or Buckingham cut-off"
             },
+            {
+                "name": "DispCorr",
+                "candidate": ["", "no", "EnerPres", "Ener"],
+                "defaultValue": "no",
+                "comment": "dispersion correction"
+            },
+        ],
+    },
+    {
+        "sectionName": "Ewald",
+        "sectionActivated": false,
+        "sectionData": [
+            {
+                "name": "fourierspacing",
+                "candidate": [""],
+                "defaultValue": "0.12",
+                "comment": "[nm]"
+            },
+            {
+                "name": "pme-order",
+                "candidate": [""],
+                "defaultValue": "4",
+                "comment": "Interpolation order for PME"
+            },
         ],
     },
     {
@@ -163,6 +187,42 @@ var mdpTemplate = [
         ],
     },
     {
+        "sectionName": "Bonds",
+        "sectionActivated": false,
+        "sectionData": [
+            {
+                "name": "constraints",
+                "candidate": ["", "none", "h-bonds"],
+                "defaultValue": "none",
+                "comment": "Controls which bonds in the topology will be converted to rigid holonomic constraints"
+            },
+            {
+                "name": "continuation",
+                "candidate": ["", "yes", "no"],
+                "defaultValue": "no",
+                "comment": "unconstrained-start"
+            },
+            {
+                "name": "constraint-algorithm",
+                "candidate": ["", "LINCS", "SHAKE"],
+                "defaultValue": "LINCS",
+                "comment": "Chooses which solver satisfies any non-SETTLE holonomic constraints"
+            },
+            {
+                "name": "lincs-order",
+                "candidate": [""],
+                "defaultValue": "4",
+                "comment": "Highest order in the expansion of the constraint coupling matrix"
+            },
+            {
+                "name": "lincs-iter",
+                "candidate": [""],
+                "defaultValue": "1",
+                "comment": "Number of iterations to correct for rotational lengthening in LINCS"
+            },
+        ],
+    },
+    {
         "sectionName": "Temperature coupling",
         "sectionActivated": false,
         "sectionData": [
@@ -171,6 +231,12 @@ var mdpTemplate = [
                 "candidate": ["no", "berendsen", "v-rescale", ""],
                 "defaultValue": "0",
                 "comment": "Temperature coupling method"
+            },
+            {
+                "name": "tc-grps",
+                "candidate": [""],
+                "defaultValue": "",
+                "comment": "Temperature coupling groups"
             },
             {
                 "name": "tau-t",
@@ -219,6 +285,30 @@ var mdpTemplate = [
                 "candidate": [""],
                 "defaultValue": "0",
                 "comment": " number of steps that elapse between writing coordinates to the output trajectory file"
+            },
+            {
+                "name": "nstvout",
+                "candidate": [""],
+                "defaultValue": "0",
+                "comment": " number of steps that elapse between writing velocities to the output trajectory file"
+            },
+            {
+                "name": "nstfout",
+                "candidate": [""],
+                "defaultValue": "0",
+                "comment": " number of steps that elapse between writing forces to the output trajectory file"
+            },
+            {
+                "name": "nstlog",
+                "candidate": [""],
+                "defaultValue": "1000",
+                "comment": "[steps] number of steps that elapse between writing energies to the log file"
+            },
+            {
+                "name": "nstenergy",
+                "candidate": [""],
+                "defaultValue": "1000",
+                "comment": "[steps] number of steps that elapse between writing energies to energy file"
             },
         ],
     },

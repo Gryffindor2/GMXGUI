@@ -22,15 +22,16 @@ rvdw=1.0
 
 const NVT = () => {
   mdp.clear();
-  mdp.str = `title=OPLS Lysozyme NVT equilibration
+  mdp.str = 
+`title=OPLS Lysozyme NVT equilibration
 define=-DPOSRES
 integrator=md
 dt=0.002
 nsteps=50000
-gen_seed=-1
-gen_temp=300
-gen_seed=-1
-gen_vel=yes
+gen-seed=-1
+gen-temp=300
+gen-seed=-1
+gen-vel=yes
 cutoff-scheme=Verlet
 coulombtype=PME
 rcoulomb=1.0
@@ -40,13 +41,13 @@ nstvout=500
 nstenergy=500
 nstlog=500
 continuation=no
-constraint_algorithm=lincs
+constraint-algorithm=lincs
 constraints=h-bonds
-lincs_iter=1
-lincs_order=4
-ns_type=grid
+lincs-iter=1
+lincs-order=4
+ns-type=grid
 DispCorr=EnerPres
-pme_order=4
+pme-order=4
 fourierspacing=0.16
 tcoupl=V-rescale
 tc-grps=Protein Non-Protein
@@ -56,7 +57,49 @@ pcoupl=no
 `;
 };
 
-const NPT = () => {};
+const clear = () => {
+  mdp.clear();
+}
+
+const NPT = () => {
+
+  mdp.clear();
+  mdp.str = 
+`title=OPLS Lysozyme NPT equilibration
+define=-DPOSRES
+integrator=md
+dt=0.002
+nsteps=50000
+emtol=1000.0
+cutoff-scheme=Verlet
+ns-type=grid
+coulombtype=PME
+rcoulomb=1.0
+rvdw=1.0
+tcoupl=V-rescale
+pcoupl=Parrinello-Rahman
+nstxout=500
+nstvout=500
+nstlog=500
+nstenergy=500
+continuation=yes
+constraint-algorithm=lincs
+constraints=h-bonds
+lincs-iter=1
+lincs-order=4
+ns-type=grid
+DispCorr=EnerPres
+pme-order=4
+fourierspacing=0.16
+tc-grps=Protein Non-Protein
+tau-t=0.1     0.1
+ref-t=300     300
+pcoupltype=isotropic
+tau-p=2.0
+ref-p=1.0
+compressibility=4.5e-5
+refcoord-scaling=com`
+};
 
 const MD = () => {};
 
@@ -137,6 +180,12 @@ const updateExtra = () => {
           class="border-gray-400 border rounded-lg flex-1"
         ></textarea>
         <div class="flex flex-row my-1">
+          <button
+            @click="clear"
+            class="rounded-md bg-red-500 px-4 py-2 text-white ml-1.5"
+          >
+            Clear
+          </button>
           <div class="flex-1"></div>
           <input
             type="file"
