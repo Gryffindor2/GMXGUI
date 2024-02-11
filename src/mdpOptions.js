@@ -1,4 +1,5 @@
-var mdpTemplate = [
+var mdpOptions = [
+    //info
     {
         "sectionName": "Info",
         "sectionActivated": true,
@@ -17,6 +18,7 @@ var mdpTemplate = [
             }
         ],
     },
+    //Run control
     {
         "sectionName": "Run control",
         "sectionActivated": false,
@@ -41,6 +43,7 @@ var mdpTemplate = [
             }
         ],
     },
+    //EM
     {
         "sectionName": "EM",
         "sectionActivated": false,
@@ -66,6 +69,7 @@ var mdpTemplate = [
             }
         ],
     },
+    //Velocity generation
     {
         "sectionName": "Velocity generation",
         "sectionActivated": false,
@@ -90,6 +94,7 @@ var mdpTemplate = [
             },
         ],
     },
+    //Neighbor searching
     {
         "sectionName": "Neighbor searching",
         "sectionActivated": false,
@@ -120,6 +125,7 @@ var mdpTemplate = [
             }
         ],
     },
+    //Electrostatics
     {
         "sectionName": "Electrostatics",
         "sectionActivated": false,
@@ -138,6 +144,7 @@ var mdpTemplate = [
             },
         ],
     },
+    //Van der Waals
     {
         "sectionName": "Van der Waals",
         "sectionActivated": false,
@@ -156,6 +163,7 @@ var mdpTemplate = [
             },
         ],
     },
+    //Ewald
     {
         "sectionName": "Ewald",
         "sectionActivated": false,
@@ -174,6 +182,7 @@ var mdpTemplate = [
             },
         ],
     },
+    //COM pulling
     {
         "sectionName": "COM pulling",
         "sectionActivated": false,
@@ -186,6 +195,7 @@ var mdpTemplate = [
             },
         ],
     },
+    //Bonds
     {
         "sectionName": "Bonds",
         "sectionActivated": false,
@@ -222,6 +232,7 @@ var mdpTemplate = [
             },
         ],
     },
+    //Temperature coupling
     {
         "sectionName": "Temperature coupling",
         "sectionActivated": false,
@@ -252,6 +263,7 @@ var mdpTemplate = [
             },
         ],
     },
+    //Pressure coupling
     {
         "sectionName": "Pressure coupling",
         "sectionActivated": false,
@@ -263,10 +275,22 @@ var mdpTemplate = [
                 "comment": "Pressure coupling method"
             },
             {
+                "name": "pcoupltype",
+                "candidate": ["isotropic", "semiisotropic", "anisotropic", "surface-tension", ""],
+                "defaultValue": "",
+                "comment": "Specifies the kind of isotropy of the pressure coupling used"
+            },
+            {
                 "name": "tau-p",
                 "candidate": [""],
                 "defaultValue": "0",
                 "comment": "[ps] time constant for coupling"
+            },
+            {
+                "name": "compressibility",
+                "candidate": [""],
+                "defaultValue": "",
+                "comment": "[bar^-1] The compressibility"
             },
             {
                 "name": "ref-p",
@@ -274,8 +298,15 @@ var mdpTemplate = [
                 "defaultValue": "0",
                 "comment": "[bar] reference pressure for coupling"
             },
+            {
+                "name": "refcoord-scaling",
+                "candidate": ["no", "all", "com", ""],
+                "defaultValue": "0",
+                "comment": ""
+            },
         ],
     },
+    //Output control
     {
         "sectionName": "Output control",
         "sectionActivated": false,
@@ -314,4 +345,4 @@ var mdpTemplate = [
     },
 ];
 
-export default mdpTemplate;
+export default mdpOptions;

@@ -1,7 +1,7 @@
-import mdpTemplate from "./mdpTemplate.js";
+import mdpOptions from "./mdpOptions.js";
 class MdpParser{
     constructor(){
-        this.mdp = mdpTemplate;
+        this.mdp = mdpOptions;
         this.extra = [];
     }
 

@@ -1,121 +1,26 @@
 <script setup>
 import Chooser from "./chooser.vue";
 import { reactive, ref, onMounted } from "vue";
-
 import MdpParser from "./MdpParser.js";
+import mdpTemplates from "./mdpTemplates";
+
 const mdp = reactive(new MdpParser());
 const extraVisiable = ref(false);
-const EM = () => {
+const changeTemplate = (template) => {
   mdp.clear();
-  mdp.str = `
-integrator=steep
-nsteps=50000
-emtol=1000.0
-cutoff-scheme=Verlet
-nstlist=1
-coulombtype=PME
-ns-type=grid
-rcoulomb=1.0
-rvdw=1.0
-`;
+  mdp.str = template;
 };
-
-const NVT = () => {
-  mdp.clear();
-  mdp.str = 
-`title=OPLS Lysozyme NVT equilibration
-define=-DPOSRES
-integrator=md
-dt=0.002
-nsteps=50000
-gen-seed=-1
-gen-temp=300
-gen-seed=-1
-gen-vel=yes
-cutoff-scheme=Verlet
-coulombtype=PME
-rcoulomb=1.0
-rvdw=1.0
-nstxout=500
-nstvout=500
-nstenergy=500
-nstlog=500
-continuation=no
-constraint-algorithm=lincs
-constraints=h-bonds
-lincs-iter=1
-lincs-order=4
-ns-type=grid
-DispCorr=EnerPres
-pme-order=4
-fourierspacing=0.16
-tcoupl=V-rescale
-tc-grps=Protein Non-Protein
-tau-t=0.1     0.1
-ref-t=300     300
-pcoupl=no
-`;
-};
-
-const clear = () => {
-  mdp.clear();
-}
-
-const NPT = () => {
-
-  mdp.clear();
-  mdp.str = 
-`title=OPLS Lysozyme NPT equilibration
-define=-DPOSRES
-integrator=md
-dt=0.002
-nsteps=50000
-emtol=1000.0
-cutoff-scheme=Verlet
-ns-type=grid
-coulombtype=PME
-rcoulomb=1.0
-rvdw=1.0
-tcoupl=V-rescale
-pcoupl=Parrinello-Rahman
-nstxout=500
-nstvout=500
-nstlog=500
-nstenergy=500
-continuation=yes
-constraint-algorithm=lincs
-constraints=h-bonds
-lincs-iter=1
-lincs-order=4
-ns-type=grid
-DispCorr=EnerPres
-pme-order=4
-fourierspacing=0.16
-tc-grps=Protein Non-Protein
-tau-t=0.1     0.1
-ref-t=300     300
-pcoupltype=isotropic
-tau-p=2.0
-ref-p=1.0
-compressibility=4.5e-5
-refcoord-scaling=com`
-};
-
-const MD = () => {};
-
 const save = () => {
   var link = document.getElementById("link");
   link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(mdp.str);
   link.download = "result.mdp";
   link.click();
 };
-
 const open = () => {
   document.getElementById("file-dialog").click();
 };
-
 onMounted(() => {
-  alert("评估版本，功能尚不完善，请谨慎使用")
+  alert("评估版本，功能尚不完善，请谨慎使用");
   document.getElementById("open-file-dialog").onchange = function (event) {
     var file = event.target.files[0];
     var reader = new FileReader();
@@ -141,69 +46,27 @@ const updateExtra = () => {
     </div>
     <!--template button-->
     <div class="flex flex-row my-4">
-      <button
-        @click="EM"
-        class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5"
-      >
-        EM
-      </button>
-      <button
-        @click="NVT"
-        class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5"
-      >
-        NPT
-      </button>
-      <button
-        @click="NPT"
-        class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5"
-      >
-        NVT
-      </button>
-      <button
-        @click="MD"
-        class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5"
-      >
-        MD
-      </button>
-      <button
-        @click="PULL"
-        class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5"
-      >
-        PULL
-      </button>
+      <template v-for="a in mdpTemplates">
+        <button @click="changeTemplate(a.temp)" class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
+          {{ a.name }}
+        </button>
+      </template>
     </div>
     <div class="flex flex-row flex-1 h-0">
       <!--left part-->
       <div class="flex flex-col w-6/12 mx-1.5">
-        <textarea
-          v-model="mdp.str"
-          class="border-gray-400 border rounded-lg flex-1"
-        ></textarea>
+        <textarea v-model="mdp.str" class="border-gray-400 border rounded-lg flex-1"></textarea>
         <div class="flex flex-row my-1">
-          <button
-            @click="clear"
-            class="rounded-md bg-red-500 px-4 py-2 text-white ml-1.5"
-          >
+          <button @click="clear" class="rounded-md bg-red-500 px-4 py-2 text-white ml-1.5">
             Clear
           </button>
           <div class="flex-1"></div>
-          <input
-            type="file"
-            id="open-file-dialog"
-            accept=".mdp"
-            v-show="false"
-          />
-          <button
-            @click="open"
-            class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5"
-          >
+          <input type="file" id="open-file-dialog" accept=".mdp" v-show="false"/>
+          <button @click="open" class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
             Open
           </button>
           <a v-show="false" id="link" />
-          <button
-            @click="save"
-            class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5"
-          >
+          <button @click="save" class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
             Save
           </button>
         </div>
@@ -227,10 +90,7 @@ const updateExtra = () => {
                     <div class="flex flex-row">
                       <div>{{ setting.name }}</div>
                       <div class="flex-1"></div>
-                      <chooser
-                        v-bind:temp="setting.candidate"
-                        v-model="setting.value"
-                      ></chooser>
+                      <chooser v-bind:temp="setting.candidate" v-model="setting.value"></chooser>
                     </div>
                     <div class="ml-2 text-slate-500">{{ setting.comment }}</div>
                     <div class="h-2"></div>
@@ -249,18 +109,10 @@ const updateExtra = () => {
             <div v-if="extraVisiable">
               <div class="bg-slate-400 h-px"></div>
               <div class="m-1 w-12/12 flex flex-col">
-                <textarea
-                  id="ta"
-                  v-bind:value="mdp.extraStr"
-                  rows="5"
-                  class="border-gray-400 border rounded-lg flex-1"
-                ></textarea>
+                <textarea id="ta" v-bind:value="mdp.extraStr" rows="5" class="border-gray-400 border rounded-lg flex-1"></textarea>
                 <div class="flex flex-row">
                   <div class="flex-1"></div>
-                  <button
-                    v-on:click="updateExtra"
-                    class="mt-1 rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5"
-                  >
+                  <button v-on:click="updateExtra" class="mt-1 rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
                     Ok
                   </button>
                 </div>
