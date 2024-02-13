@@ -6,6 +6,9 @@ import mdpTemplates from "./mdpTemplates";
 
 const mdp = reactive(new MdpParser());
 const extraVisiable = ref(false);
+const clear = () =>{
+  mdp.clear();
+}
 const changeTemplate = (template) => {
   mdp.clear();
   mdp.str = template;

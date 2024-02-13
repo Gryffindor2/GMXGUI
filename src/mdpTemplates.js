@@ -1,16 +1,23 @@
 var mdpTemplates = [
-    {
+      {
+            "name":"ION",
+            "temp":"title=ION"
+      },
+      {
         "name":"EM",
         "temp":
-`integrator=steep
-nsteps=50000
+`title=EM
+integrator=steep
+nsteps=-1
 emtol=1000.0
 cutoff-scheme=Verlet
 nstlist=1
 coulombtype=PME
 ns-type=grid
 rcoulomb=1.0
-rvdw=1.0`
+rvdw=1.0
+fourierspacing=0.15
+nstenergy=500`
       },
       {
         "name":"NVT",

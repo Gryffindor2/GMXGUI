@@ -7,6 +7,7 @@ class MdpParser{
 
     clear(){
         for(var i = 0; i < this.mdp.length; i++){
+            this.mdp[i].sectionActivated = false;
             for(var j = 0; j < this.mdp[i].sectionData.length; j++){
                 
                 this.mdp[i].sectionData[j].value = '';
@@ -61,6 +62,7 @@ class MdpParser{
                 var section = this.mdp[j];
                 for(var k = 0; k < section.sectionData.length; k++){
                     if(section.sectionData[k].name == key){
+                        section.sectionActivated = true;
                         section.sectionData[k].value = value;
                         match = true;
                     }

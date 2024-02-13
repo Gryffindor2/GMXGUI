@@ -1,8 +1,9 @@
 var mdpOptions = [
+    //detailed infomation in manual.gromacs.org/documentation/2023/user-guide/mdp-options.html
     //info
     {
         "sectionName": "Info",
-        "sectionActivated": true,
+        "sectionActivated": false,
         "sectionData": [
             {
                 "name": "title",
@@ -154,6 +155,18 @@ var mdpOptions = [
                 "candidate": [""],
                 "defaultValue": "1",
                 "comment": "[nm] distance for the LJ or Buckingham cut-off"
+            },
+            {
+                "name": "rvdw-switch",
+                "candidate": [""],
+                "defaultValue": "0",
+                "comment": "[nm] where to start switching the LJ force and possibly the potential"
+            },
+            {
+                "name": "vdw-modifier",
+                "candidate": ["Potential-shift", "None", "Force-switch", "Potential-switch", ""],
+                "defaultValue": "",
+                "comment": ""
             },
             {
                 "name": "DispCorr",
