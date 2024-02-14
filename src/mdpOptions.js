@@ -61,12 +61,6 @@ var mdpOptions = [
                 "candidate": [""],
                 "defaultValue": "0.01",
                 "comment": "[nm] initial step-size"
-            },
-            {
-                "name": "gen_seed",
-                "candidate": [""],
-                "defaultValue": "",
-                "comment": "random seed"
             }
         ],
     },
@@ -205,6 +199,66 @@ var mdpOptions = [
                 "candidate": ["", "yes", "no"],
                 "defaultValue": "1",
                 "comment": "pull"
+            },
+            {
+                "name": "pull-ngroups",
+                "candidate": [""],
+                "defaultValue": "1",
+                "comment": " The number of pull groups, not including the absolute reference group, when used."
+            },
+            {
+                "name": "pull-ncoords",
+                "candidate": [""],
+                "defaultValue": "1",
+                "comment": "The number of pull coordinates"
+            },
+            {
+                "name": "pull-group1-name",
+                "candidate": [""],
+                "defaultValue": "",
+                "comment": "The name of the pull group"
+            },
+            {
+                "name": "pull-coord1-geometry",
+                "candidate": ["", "distance", "direction", ],
+                "defaultValue": "",
+                "comment": ""
+            },
+            {
+                "name": "pull-coord1-groups",
+                "candidate": [""],
+                "defaultValue": "",
+                "comment": "The group indices on which this pull coordinate will operate"
+            },
+            {
+                "name": "pull-group2-name",
+                "candidate": [""],
+                "defaultValue": "",
+                "comment": ""
+            },
+            {
+                "name": "pull-coord1-type",
+                "candidate": ["", "umbrella", "constraint"],
+                "defaultValue": "",
+                "comment": ""
+            },
+            {
+                "name": "pull-coord1-k",
+                "candidate": [""],
+                "defaultValue": "0",
+                "comment": "[kJ mol-1 rad-1] The force constant"
+            },
+            {
+                "name": "pull-coord1-rate",
+                "candidate": [""],
+                "defaultValue": "0",
+                "comment": "[deg/ps] The rate of change of the reference position or reference angle."
+            },
+            {
+                "name": "pull-coord1-init",
+                "candidate": [""],
+                "defaultValue": "0",
+                "comment": "[nm] or [deg] The reference distance or reference angle at t=0."
             },
         ],
     },
@@ -353,6 +407,12 @@ var mdpOptions = [
                 "candidate": [""],
                 "defaultValue": "1000",
                 "comment": "[steps] number of steps that elapse between writing energies to energy file"
+            },
+            {
+                "name": "nstxout-compressed",
+                "candidate": [""],
+                "defaultValue": "0",
+                "comment": "[steps] number of steps that elapse between writing position coordinates using lossy compression "
             },
         ],
     },

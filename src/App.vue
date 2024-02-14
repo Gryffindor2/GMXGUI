@@ -23,7 +23,6 @@ const open = () => {
   document.getElementById("file-dialog").click();
 };
 onMounted(() => {
-  alert("评估版本，功能尚不完善，请谨慎使用");
   document.getElementById("open-file-dialog").onchange = function (event) {
     var file = event.target.files[0];
     var reader = new FileReader();

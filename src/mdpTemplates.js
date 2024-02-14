@@ -11,87 +11,118 @@ integrator=steep
 nsteps=-1
 emtol=1000.0
 cutoff-scheme=Verlet
-nstlist=1
 coulombtype=PME
 ns-type=grid
-rcoulomb=1.0
-rvdw=1.0
+rcoulomb=1.2
+rvdw=1.2
 fourierspacing=0.15
 nstenergy=500`
       },
       {
         "name":"NVT",
         "temp":
-`title=OPLS Lysozyme NVT equilibration
+`title=NVT equilibration
 define=-DPOSRES
 integrator=md
 dt=0.002
 nsteps=50000
-gen-seed=-1
 gen-temp=300
-gen-seed=-1
 gen-vel=yes
 cutoff-scheme=Verlet
-coulombtype=PME
-rcoulomb=1.0
-rvdw=1.0
-nstxout=500
-nstvout=500
-nstenergy=500
-nstlog=500
-continuation=no
-constraint-algorithm=lincs
-constraints=h-bonds
-lincs-iter=1
-lincs-order=4
 ns-type=grid
-DispCorr=EnerPres
-pme-order=4
-fourierspacing=0.16
-tcoupl=V-rescale
-tc-grps=Protein Non-Protein
-tau-t=0.1     0.1
-ref-t=300     300
-pcoupl=no`
+coulombtype=PME
+rcoulomb=1.2
+rvdw=1.2
+rvdw-switch=1.0
+vdw-modifier=Force-switch
+fourierspacing=0.15
+constraints=h-bonds
+tcoupl=v-rescale
+tc-grps=system
+tau-t=1.0
+ref-t=300
+pcoupl=no
+nstenergy=500
+`
       },
       {
         "name":"NPT",
         "temp":
-`title=OPLS Lysozyme NPT equilibration
+`title=NPT equilibration
 define=-DPOSRES
 integrator=md
 dt=0.002
 nsteps=50000
-emtol=1000.0
+gen-temp=300
+gen-vel=yes
 cutoff-scheme=Verlet
 ns-type=grid
 coulombtype=PME
-rcoulomb=1.0
-rvdw=1.0
-tcoupl=V-rescale
-pcoupl=Parrinello-Rahman
-nstxout=500
-nstvout=500
-nstlog=500
-nstenergy=500
-continuation=yes
-constraint-algorithm=lincs
+rcoulomb=1.2
+rvdw=1.2
+rvdw-switch=1.0
+vdw-modifier=Force-switch
+fourierspacing=0.15
 constraints=h-bonds
-lincs-iter=1
-lincs-order=4
-ns-type=grid
-DispCorr=EnerPres
-pme-order=4
-fourierspacing=0.16
-tc-grps=Protein Non-Protein
-tau-t=0.1     0.1
-ref-t=300     300
+continuation=yes
+tcoupl=V-rescale
+tc-grps=system
+tau-t=1.0
+ref-t=300
+pcoupl=C-rescale
 pcoupltype=isotropic
-tau-p=2.0
-ref-p=1.0
+tau-p=5.0
 compressibility=4.5e-5
+ref-p=1.0
 refcoord-scaling=com
+nstenergy=500
+
 `
+      },
+      {
+            "name":"PULL",
+            "temp":
+`title=PULL
+pull=yes
+pull-ngroups=2
+pull-group1-name=group1
+pull-coord1-geometry=distance
+pull-coord1-groups=1 2
+pull-group2-name=group2
+pull-coord1-type=umbrella
+pull-coord1-k=5000.0
+pull-coord1-rate=0.0
+pull-coord1-init=0.834
+
+`
+      },
+      {
+            "name":"PRODUCTION MD",
+            "temp":
+`title=PRODUCTION MD
+integrator=md
+dt=0.002
+nsteps=500000
+coulombtype=PME
+rcoulomb=1.2
+rvdw=1.2
+rvdw-switch=1.0
+vdw-modifier=Force-switch
+fourierspacing=0.15
+constraints=h-bonds
+continuation=yes
+tcoupl=V-rescale
+tc-grps=system
+tau-t=1.0
+ref-t=300
+pcoupl=C-rescale
+pcoupltype=isotropic
+tau-p=5.0
+compressibility=4.5e-5
+ref-p=1.0
+refcoord-scaling=com
+nstenergy=500
+nstxout-compressed=2500`
       }
 ]
 
