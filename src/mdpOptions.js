@@ -1,22 +1,22 @@
 var mdpOptions = [
     //detailed infomation in manual.gromacs.org/documentation/2023/user-guide/mdp-options.html
-    //info
+    //Preprocessing
     {
-        "sectionName": "Info",
+        "sectionName": "Preprocessing",
         "sectionActivated": false,
         "sectionData": [
-            {
-                "name": "title",
-                "candidate": [""],
-                "defaultValue": "",
-                "comment": "job title"
-            },
             {
                 "name": "define",
                 "candidate": [""],
                 "defaultValue": "",
                 "comment": "defines to pass to the preprocessor"
-            }
+            },
+            {
+                "name": "include",
+                "candidate": [""],
+                "defaultValue": "",
+                "comment": "directories to include in your topology"
+            },
         ],
     },
     //Run control
@@ -31,16 +31,40 @@ var mdpOptions = [
                 "comment": "Integration method"
             },
             {
+                "name": "tinit",
+                "candidate": [""],
+                "defaultValue": "0",
+                "comment": "[ps] starting time for your run"
+            },
+            {
                 "name": "dt",
                 "candidate": [""],
-                "defaultValue": "",
-                "comment": "delta t"
+                "defaultValue": "0.001",
+                "comment": "[ps] time step for integration"
             },
             {
                 "name": "nsteps",
                 "candidate": [""],
-                "defaultValue": "",
-                "comment": "number of md steps"
+                "defaultValue": "0",
+                "comment": "maximum number of steps to integrate or minimize"
+            }
+        ],
+    },
+    {
+        "sectionName": "Langevin dynamics",
+        "sectionActivated": false,
+        "sectionData": [
+            {
+                "name": "bd-fric",
+                "candidate": [""],
+                "defaultValue": "0",
+                "comment": "[amu ps^-1] Brownian dynamics friction coefficient"
+            },
+            {
+                "name": "ld-seed",
+                "candidate": [""],
+                "defaultValue": "-1",
+                "comment": "[integer] used to initialize random generator for thermal noise for stochastic and Brownian dynamics."
             }
         ],
     },
@@ -99,12 +123,6 @@ var mdpOptions = [
                 "candidate": ["Verlet", "group", ""],
                 "defaultValue": "",
                 "comment": "temperature"
-            },
-            {
-                "name": "ns-type",
-                "candidate": ["grid", "simple", ""],
-                "defaultValue": "",
-                "comment": "random seed"
             },
             {
                 "name": "nstlist",
@@ -337,7 +355,7 @@ var mdpOptions = [
         "sectionData": [
             {
                 "name": "pcoupl",
-                "candidate": ["no", "berendsen", "C-rescale", ""],
+                "candidate": ["no", "berendsen", "C-rescale","Parrinello-Rahman", ""],
                 "defaultValue": "0",
                 "comment": "Pressure coupling method"
             },

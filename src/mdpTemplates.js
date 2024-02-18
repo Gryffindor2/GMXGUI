@@ -1,18 +1,23 @@
 var mdpTemplates = [
-      {
-            "name":"ION",
-            "temp":"title=ION"
+      {"name":"EM",
+      "temp":
+`integrator=md
+nsteps=10000
+cutoff-scheme=Verlet
+coulombtype=PME
+rcoulomb=1.2
+rvdw=1.2
+fourierspacing=0.15
+`
       },
       {
         "name":"EM",
         "temp":
-`title=EM
-integrator=steep
+`integrator=steep
 nsteps=-1
 emtol=1000.0
 cutoff-scheme=Verlet
 coulombtype=PME
-ns-type=grid
 rcoulomb=1.2
 rvdw=1.2
 fourierspacing=0.15
@@ -21,15 +26,13 @@ nstenergy=500`
       {
         "name":"NVT",
         "temp":
-`title=NVT equilibration
-define=-DPOSRES
+`define=-DPOSRES
 integrator=md
 dt=0.002
 nsteps=50000
 gen-temp=300
 gen-vel=yes
 cutoff-scheme=Verlet
-ns-type=grid
 coulombtype=PME
 rcoulomb=1.2
 rvdw=1.2
@@ -48,15 +51,11 @@ nstenergy=500
       {
         "name":"NPT",
         "temp":
-`title=NPT equilibration
-define=-DPOSRES
+`define=-DPOSRES
 integrator=md
 dt=0.002
 nsteps=50000
-gen-temp=300
-gen-vel=yes
 cutoff-scheme=Verlet
-ns-type=grid
 coulombtype=PME
 rcoulomb=1.2
 rvdw=1.2
@@ -65,7 +64,7 @@ vdw-modifier=Force-switch
 fourierspacing=0.15
 constraints=h-bonds
 continuation=yes
-tcoupl=V-rescale
+tcoupl=v-rescale
 tc-grps=system
 tau-t=1.0
 ref-t=300
@@ -82,8 +81,7 @@ nstenergy=500
       {
             "name":"PULL",
             "temp":
-`title=PULL
-pull=yes
+`pull=yes
 pull-ngroups=2
 pull-group1-name=group1
 pull-coord1-geometry=distance
@@ -99,8 +97,7 @@ pull-coord1-init=0.834
       {
             "name":"PRODUCTION MD",
             "temp":
-`title=PRODUCTION MD
-integrator=md
+`integrator=md
 dt=0.002
 nsteps=500000
 coulombtype=PME
@@ -111,11 +108,11 @@ vdw-modifier=Force-switch
 fourierspacing=0.15
 constraints=h-bonds
 continuation=yes
-tcoupl=V-rescale
+tcoupl=v-rescale
 tc-grps=system
 tau-t=1.0
 ref-t=300
-pcoupl=C-rescale
+pcoupl=Parrinello-Rahman
 pcoupltype=isotropic
 tau-p=5.0
 compressibility=4.5e-5

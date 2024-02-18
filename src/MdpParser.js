@@ -30,14 +30,19 @@ class MdpParser{
     }
 
     get str(){
-        var result = ''
+        var result = '';
         for(var i = 0; i < this.mdp.length; i++){
+            var sectionNameWritten = false
             for(var j = 0; j < this.mdp[i].sectionData.length; j++){
                 var key = this.mdp[i].sectionData[j].name;
                 var value = this.mdp[i].sectionData[j].value;
 
                 if(value != null && value != '' && value != this.mdp[i].sectionData[j].defaultValue){
-                    result += key + "=" + value + "\n";
+                    if(sectionNameWritten == false){
+                        result += ';;' + this.mdp[i].sectionName + "\n";
+                    }
+                    result += '\t' + key + "=" + value + "\n";
+                    sectionNameWritten = true
                 }
             }
         }
@@ -78,11 +83,15 @@ class MdpParser{
         return this.mdp;
     }
     get extraStr(){
-        var result = "";
+        var result = '';
+        if(this.extra.length != 0){
+            ";;extra options or obselete options\n";
+        }
+        
         for(var i = 0; i < this.extra.length; i++){
             var key = this.extra[i].name;
             var value = this.extra[i].value;
-            result += key + "=" + value + "\n";
+            result += '\t' + key + "=" + value + "\n";
         }
         return result;
     }
