@@ -29,7 +29,7 @@ const changeTemplate = (template) => {
     mdp.str = template;
 };
 
-const ok = () => {
+const submitChanges = () => {
     var t = document.getElementById("mdp").value;
     mdSteps[currentStep.value].data.mdp = t;
 }
@@ -91,19 +91,20 @@ const newStep = () => {
 <template>
     <div class="flex flex-col h-screen w-screen">
         <!--copyright-->
-        <p class="text-center">Gromacs GUI Copyright (C) 2024 Xiaoyang Liu</p>
+        <p class="text-center mt-2">Gromacs GUI Copyright (C) 2024 Xiaoyang Liu</p>
         <!--md file generator-->
-        <div class="flex flex-row">
-            input:<textBox v-model="input" class="h-4" />.gro
-            <div class="flex-1" />
-            <buttonRounded @click="generate"> generate </buttonRounded>
-        </div>
-        <div class="flex flex-row my-4">
+        <table class="align-middle mx-1.5 mt-1.5">
+            <tr>
+                <td>input:<textBox v-model="input" class="h-6" />.gro</td>
+                <td class="text-right"><buttonRounded @click="generate"> generate </buttonRounded></td>
+            </tr>
+        </table>
+        <div class="flex flex-row mt-1.5 mx-1.5">
             <!--scroll bar-->
             <div class="w-0 overflow-auto flex-1 flex flex-row">
                 <template v-for="(step, index) in mdSteps">
                     <div
-                        class="flex flex-row rounded-md border-blue-400 border h-28"
+                        class="mr-1.5 flex flex-row rounded-md border-blue-400 border h-28"
                         v-on:click="
                             currentStep = index;
                             changeTemplate(step.data.mdp);">
@@ -114,11 +115,11 @@ const newStep = () => {
                             <combobox
                                 v-model="step.type"
                                 @click.stop=""
-                                class="text-black"
+                                class="text-black m-1"
                                 v-bind:temp="modules" />
                         </div>
 
-                        <div v-if="!step.colapsed" class="overflow-auto">
+                        <div v-show="!step.colapsed" class="overflow-auto">
                             <mdrun
                                 v-on:template-change="changeTemplate(step.data.mdp);"
                                 v-if="step.type == 'mdrun'"
@@ -143,7 +144,7 @@ const newStep = () => {
                 </div>
             </div>
         </div>
-        <div class="flex flex-row flex-1 h-0">
+        <div class="flex flex-row flex-1 h-0 mt-1.5">
             <!--left part-->
             <div class="flex flex-col w-6/12 mx-1.5">
                 <textarea
@@ -169,9 +170,9 @@ const newStep = () => {
                     </button>
                     <a v-show="false" id="link" />
                     <button
-                        @click="ok"
+                        @click="submitChanges"
                         class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
-                        Ok
+                        submitChanges
                     </button>
                     <button
                         @click="copy"

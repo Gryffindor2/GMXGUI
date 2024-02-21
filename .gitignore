@@ -29,3 +29,6 @@ coverage
 
 *.tsbuildinfo
 *.txt
+
+#old file
+*.old

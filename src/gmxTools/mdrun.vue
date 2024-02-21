@@ -14,9 +14,9 @@ const changeMdpTemplates = () => {
 };
 </script>
 <template>
-    <div class="flex flex-col">
+    <div class="flex flex-col m-1">
         <div class="flex flex-row">
-            <div>name</div>
+            <div>name&nbsp;&nbsp;&nbsp;&nbsp;</div>
             <div class="flex-1"></div>
             <textBox v-model="v.name" />
         </div>
@@ -29,6 +29,7 @@ const changeMdpTemplates = () => {
             <div>mdp</div>
             <div class="flex-1"></div>
             <select
+            class="border border-gray-400 rounded-sm"
                 v-model="mdpTemplatesName"
                 @change="
                     changeMdpTemplates();
