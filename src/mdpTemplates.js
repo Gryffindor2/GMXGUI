@@ -1,5 +1,5 @@
 var mdpTemplates = [
-      {"name":"EM",
+      {"name":"ION",
       "temp":
 `integrator=md
 nsteps=10000
@@ -120,6 +120,53 @@ ref-p=1.0
 refcoord-scaling=com
 nstenergy=500
 nstxout-compressed=2500`
+      },
+      {
+            "name":"NB FORCE",
+            "temp":
+`;;Run control
+integrator=md
+dt=0.002
+nsteps=5000000
+;;Neighbor searching
+cutoff-scheme=Verlet
+nstlist=20
+rlist=1.2
+;;Electrostatics
+coulombtype=PME
+rcoulomb=1.2
+;;Van der Waals
+vdwtype=cutoff
+rvdw=1.2
+rvdw-switch=1.0
+vdw-modifier=force-switch
+;;Ewald
+fourierspacing=0.16
+;;Bonds
+constraints=h-bonds
+continuation=yes
+constraint-algorithm=lincs
+;;Temperature coupling
+tcoupl=V-rescale
+tc-grps=Protein_JZ4 Water_and_ions
+;;Pressure coupling
+pcoupl=Parrinello-Rahman
+pcoupltype=isotropic
+compressibility=4.5e-5
+;;Output control
+nstlog=5000
+nstenergy=5000
+nstxout-compressed=5000
+energygrps=Protein JZ4
+lincs-iter=1
+lincs-order=4
+pme-order=4
+tau-t=0.1   0.1
+ref-t=300   300
+tau-p=2.0
+ref-p=1.0
+gen-vel=no
+`
       }
 ]
 

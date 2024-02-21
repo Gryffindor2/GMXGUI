@@ -135,6 +135,12 @@ var mdpOptions = [
                 "candidate": ["xyz", "xy", 'no', ''],
                 "defaultValue": "xyz",
                 "comment": "random seed"
+            },
+            {
+                "name": "rlist",
+                "candidate": [''],
+                "defaultValue": "1",
+                "comment": "[nm] Cut-off distance for the short-range neighbor list."
             }
         ],
     },
@@ -163,6 +169,11 @@ var mdpOptions = [
         "sectionActivated": false,
         "sectionData": [
             {
+                "name": "vdwtype",
+                "candidate": ["Cut-off", "PME", "Shift", "Switch", ""],
+                "defaultValue": "",
+                "comment": "vdw type"
+            },{
                 "name": "rvdw",
                 "candidate": [""],
                 "defaultValue": "1",
@@ -431,6 +442,12 @@ var mdpOptions = [
                 "candidate": [""],
                 "defaultValue": "0",
                 "comment": "[steps] number of steps that elapse between writing position coordinates using lossy compression "
+            },
+            {
+                "name": "energygrps",
+                "candidate": [""],
+                "defaultValue": "",
+                "comment": "group(s) for which to write to write short-ranged non-bonded potential energies to the energy file."
             },
         ],
     },

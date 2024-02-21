@@ -600,12 +600,28 @@ video {
   display: flex;
 }
 
+.table {
+  display: table;
+}
+
+.grid {
+  display: grid;
+}
+
 .h-0 {
   height: 0px;
 }
 
 .h-2 {
   height: 0.5rem;
+}
+
+.h-28 {
+  height: 7rem;
+}
+
+.h-4 {
+  height: 1rem;
 }
 
 .h-full {
@@ -620,12 +636,28 @@ video {
   height: 100vh;
 }
 
+.w-0 {
+  width: 0px;
+}
+
+.w-10 {
+  width: 2.5rem;
+}
+
 .w-6\/12 {
   width: 50%;
 }
 
+.w-screen {
+  width: 100vw;
+}
+
 .flex-1 {
   flex: 1 1 0%;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
 }
 
 .flex-row {
@@ -634,6 +666,14 @@ video {
 
 .flex-col {
   flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 
 .overflow-y-auto {
@@ -654,6 +694,20 @@ video {
 
 .border {
   border-width: 1px;
+}
+
+.border-2 {
+  border-width: 2px;
+}
+
+.border-blue-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(96 165 250 / var(--tw-border-opacity));
+}
+
+.border-blue-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity));
 }
 
 .border-gray-400 {
@@ -705,6 +759,16 @@ video {
   text-align: center;
 }
 
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
+}
+
 .text-slate-500 {
   --tw-text-opacity: 1;
   color: rgb(100 116 139 / var(--tw-text-opacity));
@@ -713,4 +777,26 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  background-color: #f2f2f2;
+  /* 背景颜色 */
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 5px;
+  /* 设置横向滚动条高度 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* 前景颜色 */
+  border-radius: 1.5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* 鼠标悬停时的前景颜色 */
 }

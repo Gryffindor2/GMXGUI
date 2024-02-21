@@ -50,10 +50,12 @@ class MdpParser{
         return result;
     }
     set extraStr(value){
-        
         this.str = value;
     }
     set str(value){
+        if(value == null || value == ''){
+            return;
+        }
         this.extra = [];
         var strProcessed = this.strip(value);
         var lines = strProcessed.trim().split('\n');
@@ -85,7 +87,7 @@ class MdpParser{
     get extraStr(){
         var result = '';
         if(this.extra.length != 0){
-            ";;extra options or obselete options\n";
+            result += ";;extra options or obselete options\n";
         }
         
         for(var i = 0; i < this.extra.length; i++){
@@ -94,6 +96,21 @@ class MdpParser{
             result += '\t' + key + "=" + value + "\n";
         }
         return result;
+    }
+
+    search(key){
+        for(var i = 0; i < this.extra.length; i++){
+            if (key == this.extra[i].name){
+                return this.extra[i].value;
+            }
+        }
+        for(var i = 0; i < this.mdp.length; i++){
+            for(var j = 0; j < this.mdp[i].sectionData.length; j++){
+                if(key == this.mdp[i].sectionData[j].name){
+                    return this.mdp[i].sectionData[j].value;
+                }
+            }
+        }
     }
 
 }

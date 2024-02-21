@@ -1,20 +1,38 @@
 <script setup>
-import Chooser from "./chooser.vue";
-import { reactive, ref, onMounted } from "vue";
+import mdrun from "./gmxTools/mdrun.vue";
+import editconf from "./gmxTools/editconf.vue";
+import solvate from "./gmxTools/solvate.vue";
+import genion from "./gmxTools/genion.vue";
+import buttonRounded from "./components/buttonRounded.vue";
+import textBox from "./components/textBox.vue";
+import combobox from "./components/combobox.vue";
+import MDScript from "./gmxTools/MDScript.js";
+import { saveAs } from "file-saver";
+import Chooser from "./components/chooser.vue";
 import MdpParser from "./MdpParser.js";
-import mdpTemplates from "./mdpTemplates";
+import { reactive, ref, onMounted, watch } from "vue";
 
+const modules = reactive(["mdrun", "editconf", "solvate", "genion"]);
+const input = ref("");
 const mdp = reactive(new MdpParser());
 const search = ref("");
 const extraVisiable = ref(false);
+const currentStep = ref(0);
+const mdSteps = reactive([{ type: "mdrun", colapsed: true, data: {} }]);
+
 const clear = () => {
     mdp.clear();
 };
 
 const changeTemplate = (template) => {
-    mdp.clear();
+    clear()
     mdp.str = template;
 };
+
+const ok = () => {
+    var t = document.getElementById("mdp").value;
+    mdSteps[currentStep.value].data.mdp = t;
+}
 
 const contain = (str1, str2) => {
     str1 = str1.toLowerCase();
@@ -25,15 +43,11 @@ const contain = (str1, str2) => {
 const copy = () => {
     navigator.clipboard.writeText(mdp.str);
 };
-const save = () => {
-    var link = document.getElementById("link");
-    link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(mdp.str);
-    link.download = "result.mdp";
-    link.click();
-};
+
 const open = () => {
-    document.getElementById("file-dialog").click();
+    document.getElementById("open-file-dialog").click();
 };
+
 onMounted(() => {
     document.getElementById("open-file-dialog").onchange = function (event) {
         var file = event.target.files[0];
@@ -47,33 +61,93 @@ onMounted(() => {
         reader.readAsText(file);
     };
 });
+
 const updateExtra = () => {
     mdp.extraStr = document.getElementById("ta").value;
+};
+
+const generate = () => {
+    if(input.value == "" ||input.value == null){
+        alert("Please input the input file name.");
+        return;
+    }
+    alert("Please carefully check the script generated.\n***NOTE: the cpt file need to be added manually.***");
+    var md = new MDScript(input, mdSteps);
+    var zip = md.generateZip()
+    zip.generateAsync({type:"blob"}).then(function(content) {
+            saveAs(content, "md.zip");
+        });
+};
+
+const newStep = () => {
+    mdSteps.push({
+        type: "mdrun",
+        colapsed: true,
+        data: {},
+    });
 };
 </script>
 
 <template>
-    <div class="flex flex-col h-screen">
+    <div class="flex flex-col h-screen w-screen">
         <!--copyright-->
-        <div>
-            <p class="text-center">
-                MdpGenerator Copyright (C) 2024 Xiaoyang Liu
-            </p>
+        <p class="text-center">Gromacs GUI Copyright (C) 2024 Xiaoyang Liu</p>
+        <!--md file generator-->
+        <div class="flex flex-row">
+            input:<textBox v-model="input" class="h-4" />.gro
+            <div class="flex-1" />
+            <buttonRounded @click="generate"> generate </buttonRounded>
         </div>
-        <!--template button-->
         <div class="flex flex-row my-4">
-            <template v-for="a in mdpTemplates">
-                <button
-                    @click="changeTemplate(a.temp)"
-                    class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
-                    {{ a.name }}
-                </button>
-            </template>
+            <!--scroll bar-->
+            <div class="w-0 overflow-auto flex-1 flex flex-row">
+                <template v-for="(step, index) in mdSteps">
+                    <div
+                        class="flex flex-row rounded-md border-blue-400 border h-28"
+                        v-on:click="
+                            currentStep = index;
+                            changeTemplate(step.data.mdp);">
+                        <div
+                            v-on:click="step.colapsed = !step.colapsed"
+                            class="flex flex-col rounded-md bg-blue-500 text-white text-center">
+                            <div>Step {{ index }}:</div>
+                            <combobox
+                                v-model="step.type"
+                                @click.stop=""
+                                class="text-black"
+                                v-bind:temp="modules" />
+                        </div>
+
+                        <div v-if="!step.colapsed" class="overflow-auto">
+                            <mdrun
+                                v-on:template-change="changeTemplate(step.data.mdp);"
+                                v-if="step.type == 'mdrun'"
+                                v-model="step.data" />
+                            <editconf
+                                v-if="step.type == 'editconf'"
+                                v-model="step.data" />
+                            <solvate
+                                v-if="step.type == 'solvate'"
+                                v-model="step.data" />
+                            <genion
+                                v-if="step.type == 'genion'"
+                                v-model="step.data" />
+                        </div>
+                    </div>
+                </template>
+
+                <div
+                    @click="newStep()"
+                    class="rounded-md border-blue-500 text-blue-500 grid items-center text-center border-2 h-28 w-10 shrink-0">
+                    +
+                </div>
+            </div>
         </div>
         <div class="flex flex-row flex-1 h-0">
             <!--left part-->
             <div class="flex flex-col w-6/12 mx-1.5">
                 <textarea
+                    id="mdp"
                     v-model="mdp.str"
                     class="border-gray-400 border rounded-lg flex-1"></textarea>
                 <div class="flex flex-row my-1">
@@ -95,9 +169,9 @@ const updateExtra = () => {
                     </button>
                     <a v-show="false" id="link" />
                     <button
-                        @click="save"
+                        @click="ok"
                         class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
-                        Save
+                        Ok
                     </button>
                     <button
                         @click="copy"
@@ -107,20 +181,22 @@ const updateExtra = () => {
                 </div>
             </div>
             <!--right part-->
-            <div class="w-6/12 ">
+            <div class="flex flex-col w-6/12 h-full mx-1.5">
                 <!--search-->
                 <div class="flex flex-row">
                     <input
                         type="text"
                         v-model="search"
-                        class="rounded-md border-gray-400 border flex-1 px-1 py-1 mx-1.5"
+                        class="rounded-md border-gray-400 border flex-1 px-1 py-1"
                         placeholder="Search for section" />
                 </div>
                 <!--scroll bar-->
-                <div class="mx-1.5 overflow-y-auto h-full mt-1.5">
+                <div class="overflow-y-auto mt-1.5 h-0 flex-1">
                     <!--main option-->
                     <template v-for="section in mdp.obj">
-                        <div class="border-gray-400 rounded-lg border mb-1" v-if="contain(section.sectionName, search)">
+                        <div
+                            class="border-gray-400 rounded-lg border mb-1"
+                            v-if="contain(section.sectionName, search)">
                             <div class="flex flex-row m-1">
                                 <div>{{ section.sectionName }}</div>
                                 <div class="flex-1"></div>
