@@ -20,10 +20,10 @@ class MDScript{
                 case "mdrun":
                     var runName = this.input + "_" + data.name;
                     var mdpFilename = "md_" + data.name + ".mdp";
-                    zip.file(mdpFilename, data.mdp);
-
+                    
                     mdp.clear()
                     mdp.str = data.mdp;
+                    zip.file(mdpFilename, mdp.str);
                     var needCpt = mdp.search("continuation")
                     var gromppCommand = 
                                         "gmx grompp" + 
