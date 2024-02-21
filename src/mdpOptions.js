@@ -43,7 +43,7 @@ var mdpOptions = [
                     ""
                 ],
                 "defaultValue": "Despite the name, this list includes algorithms that are not actually integrators over time. integrator=steep and all entries following it are in this category",
-                "comment": "."
+                "comment": ""
             },
             {
                 "name": "tinit",
@@ -2701,114 +2701,6 @@ var mdpOptions = [
                 ],
                 "defaultValue": "",
                 "comment": " Names of the CP2K files that will be generated during the simulation."
-            }
-        ]
-    },
-    {
-        "sectionName": "User defined thingies",
-        "sectionActivated": false,
-        "sectionData": [
-            {
-                "name": "user1-grps",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "",
-                "comment": ""
-            },
-            {
-                "name": "user2-grps",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "",
-                "comment": ""
-            },
-            {
-                "name": "userint1 (0)",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "",
-                "comment": ""
-            },
-            {
-                "name": "userint2 (0)",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "",
-                "comment": ""
-            },
-            {
-                "name": "userint3 (0)",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "",
-                "comment": ""
-            },
-            {
-                "name": "userint4 (0)",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "",
-                "comment": ""
-            },
-            {
-                "name": "userreal1 (0)",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "",
-                "comment": ""
-            },
-            {
-                "name": "userreal2 (0)",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "",
-                "comment": ""
-            },
-            {
-                "name": "userreal3 (0)",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "",
-                "comment": ""
-            },
-            {
-                "name": "userreal4 (0)",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "",
-                "comment": "These you can use if you modify code."
-            }
-        ]
-    },
-    {
-        "sectionName": "Removed features",
-        "sectionActivated": false,
-        "sectionData": [
-            {
-                "name": "adress",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "no",
-                "comment": "."
-            },
-            {
-                "name": "implicit-solvent",
-                "candidate": [
-                    ""
-                ],
-                "defaultValue": "no",
-                "comment": "."
             }
         ]
     }

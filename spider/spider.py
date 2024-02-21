@@ -67,10 +67,10 @@ if response.status_code == 200:
             optionTemplate['defaultValue'] = defaultValue
             optionTemplate['comment'] = first_sentence
 
-
+            
             sectionTemplate['sectionData'].append(optionTemplate)
-
-        mdpTemplete.append(sectionTemplate)
+        if(sectionTemplate['sectionName'] != 'Removed features' and sectionTemplate['sectionName'] != 'User defined thingies'):
+            mdpTemplete.append(sectionTemplate)
     output_file.write("var mdpOptions = ")
     output_file.write(json.dumps(mdpTemplete, indent=4, ensure_ascii=False))
     output_file.write("\nexport default mdpOptions;")

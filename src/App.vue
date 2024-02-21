@@ -10,7 +10,7 @@ import MDScript from "./gmxTools/MDScript.js";
 import { saveAs } from "file-saver";
 import Chooser from "./components/chooser.vue";
 import MdpParser from "./MdpParser.js";
-import { reactive, ref, onMounted, watch } from "vue";
+import { reactive, ref, onMounted } from "vue";
 
 const modules = reactive(["mdrun", "editconf", "solvate", "genion"]);
 const input = ref("");
@@ -25,14 +25,14 @@ const clear = () => {
 };
 
 const changeTemplate = (template) => {
-    clear()
+    clear();
     mdp.str = template;
 };
 
 const submitChanges = () => {
     var t = document.getElementById("mdp").value;
     mdSteps[currentStep.value].data.mdp = t;
-}
+};
 
 const contain = (str1, str2) => {
     str1 = str1.toLowerCase();
@@ -67,16 +67,18 @@ const updateExtra = () => {
 };
 
 const generate = () => {
-    if(input.value == "" ||input.value == null){
+    if (input.value == "" || input.value == null) {
         alert("Please input the input file name.");
         return;
     }
-    alert("Please carefully check the script generated.\n***NOTE: the cpt file need to be added manually.***");
+    alert(
+        "Please carefully check the script generated.\n***NOTE: the ndx file need to be added manually.***"
+    );
     var md = new MDScript(input, mdSteps);
-    var zip = md.generateZip()
-    zip.generateAsync({type:"blob"}).then(function(content) {
-            saveAs(content, "md.zip");
-        });
+    var zip = md.generateZip();
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+        saveAs(content, "md.zip");
+    });
 };
 
 const newStep = () => {
@@ -91,12 +93,20 @@ const newStep = () => {
 <template>
     <div class="flex flex-col h-screen w-screen">
         <!--copyright-->
-        <p class="text-center mt-2">Gromacs GUI Copyright (C) 2024 Xiaoyang Liu</p>
+        <div style="display: grid; place-items: center;background: linear-gradient(to bottom, #ccc, white);">
+            <div class="flex flex-row" style="align-items: center;">
+                <img src="../favicon.ico " class="w-16 h-16" />
+                <p class="mx-2">Gromacs GUI Copyright (C) 2024 Xiaoyang Liu</p>
+            </div>
+        </div>
+
         <!--md file generator-->
         <table class="align-middle mx-1.5 mt-1.5">
             <tr>
                 <td>input:<textBox v-model="input" class="h-6" />.gro</td>
-                <td class="text-right"><buttonRounded @click="generate"> generate </buttonRounded></td>
+                <td class="text-right">
+                    <buttonRounded @click="generate"> generate </buttonRounded>
+                </td>
             </tr>
         </table>
         <div class="flex flex-row mt-1.5 mx-1.5">
@@ -107,7 +117,8 @@ const newStep = () => {
                         class="mr-1.5 flex flex-row rounded-md border-blue-400 border h-28"
                         v-on:click="
                             currentStep = index;
-                            changeTemplate(step.data.mdp);">
+                            changeTemplate(step.data.mdp);
+                        ">
                         <div
                             v-on:click="step.colapsed = !step.colapsed"
                             class="flex flex-col rounded-md bg-blue-500 text-white text-center">
@@ -121,7 +132,9 @@ const newStep = () => {
 
                         <div v-show="!step.colapsed" class="overflow-auto">
                             <mdrun
-                                v-on:template-change="changeTemplate(step.data.mdp);"
+                                v-on:template-change="
+                                    changeTemplate(step.data.mdp)
+                                "
                                 v-if="step.type == 'mdrun'"
                                 v-model="step.data" />
                             <editconf
