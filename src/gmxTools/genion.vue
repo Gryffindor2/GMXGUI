@@ -3,7 +3,7 @@
     import textBox from '../components/textBox.vue'
 </script>
 <template>
-    <div class="flex flex-col m-1">
+    <div class="flex flex-col m-1 min-w-max">
         <div class="flex flex-row flex-nowrap">
             <div>p/n ion name:&nbsp;&nbsp;&nbsp;&nbsp;</div>
             <div class="flex-1"></div>

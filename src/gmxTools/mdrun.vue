@@ -13,6 +13,7 @@ const changeMdpTemplates = () => {
     }
 };
 </script>
+
 <template>
     <div class="flex flex-col m-1">
         <div class="flex flex-row">

@@ -3,14 +3,17 @@ import mdrun from "./gmxTools/mdrun.vue";
 import editconf from "./gmxTools/editconf.vue";
 import solvate from "./gmxTools/solvate.vue";
 import genion from "./gmxTools/genion.vue";
-import buttonRounded from "./components/buttonRounded.vue";
+import roundedButton from "./components/roundedButton.vue";
+import searchBox from "./components/searchBox.vue";
 import textBox from "./components/textBox.vue";
 import combobox from "./components/combobox.vue";
+import copyright from "./components/copyright.vue";
 import MDScript from "./gmxTools/MDScript.js";
+
 import { saveAs } from "file-saver";
 import Chooser from "./components/chooser.vue";
 import MdpParser from "./MdpParser.js";
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, watch } from "vue";
 
 const modules = reactive(["mdrun", "editconf", "solvate", "genion"]);
 const input = ref("");
@@ -19,29 +22,41 @@ const search = ref("");
 const extraVisiable = ref(false);
 const currentStep = ref(0);
 const mdSteps = reactive([{ type: "mdrun", colapsed: true, data: {} }]);
+var cleared = false;
 
 const clear = () => {
     mdp.clear();
 };
 
 const changeTemplate = (template) => {
+    cleared = true;
     clear();
     mdp.str = template;
 };
 
-const submitChanges = () => {
-    var t = document.getElementById("mdp").value;
-    mdSteps[currentStep.value].data.mdp = t;
+const save = () => {
+    var blob = new Blob([mdp.str], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, "md.mdp");
 };
 
-const contain = (str1, str2) => {
-    str1 = str1.toLowerCase();
-    str2 = str2.toLowerCase();
-    return str1.includes(str2);
+const deleteStep = (index) => {
+    currentStep.value = -1;
+    clear();
+    mdSteps.splice(index, 1);
+}
+
+const containsIgnoreCase = (str, search) => {
+    return str.toLowerCase().includes(search.toLowerCase());
 };
 
-const copy = () => {
-    navigator.clipboard.writeText(mdp.str);
+const contain = (section, target) => {
+    for (var i = 0; i < section.sectionData.length; i++) {
+        var item = section.sectionData[i];
+        if (containsIgnoreCase(item.name, target)) {
+            return true;
+        }
+    }
+    return false;
 };
 
 const open = () => {
@@ -60,6 +75,18 @@ onMounted(() => {
 
         reader.readAsText(file);
     };
+});
+
+watch(mdp, () => {
+    if(currentStep.value == -1) {
+        return;
+    }
+    if (cleared == true) {
+        cleared = false;
+        return;
+    }
+    var t = document.getElementById("mdp").value;
+    mdSteps[currentStep.value].data.mdp = t;
 });
 
 const updateExtra = () => {
@@ -91,21 +118,20 @@ const newStep = () => {
 </script>
 
 <template>
+
     <div class="flex flex-col h-screen w-screen">
         <!--copyright-->
-        <div style="display: grid; place-items: center;background: linear-gradient(to bottom, #ccc, white);">
-            <div class="flex flex-row" style="align-items: center;">
-                <img src="../favicon.ico " class="w-16 h-16" />
-                <p class="mx-2">Gromacs GUI Copyright (C) 2024 Xiaoyang Liu</p>
-            </div>
-        </div>
-
+        <copyright />
         <!--md file generator-->
         <table class="align-middle mx-1.5 mt-1.5">
             <tr>
                 <td>input:<textBox v-model="input" class="h-6" />.gro</td>
                 <td class="text-right">
-                    <buttonRounded @click="generate"> generate </buttonRounded>
+                    <roundedButton
+                        class="bg-blue-500 hover:bg-blue-400"
+                        @click="generate">
+                        generate
+                    </roundedButton>
                 </td>
             </tr>
         </table>
@@ -114,15 +140,17 @@ const newStep = () => {
             <div class="w-0 overflow-auto flex-1 flex flex-row">
                 <template v-for="(step, index) in mdSteps">
                     <div
-                        class="mr-1.5 flex flex-row rounded-md border-blue-400 border h-28"
+                        class="mr-1.5 flex flex-row rounded-md border-blue-400 border h-28 select-none"
                         v-on:click="
                             currentStep = index;
                             changeTemplate(step.data.mdp);
-                        ">
+                        "
+                        v-on:contextmenu.prevent="deleteStep(index)"
+                        >
                         <div
                             v-on:click="step.colapsed = !step.colapsed"
                             class="flex flex-col rounded-md bg-blue-500 text-white text-center">
-                            <div>Step {{ index }}:</div>
+                            <div class="mt-1">Step {{ index + 1 }}:</div>
                             <combobox
                                 v-model="step.type"
                                 @click.stop=""
@@ -163,86 +191,91 @@ const newStep = () => {
                 <textarea
                     id="mdp"
                     v-model="mdp.str"
-                    class="border-gray-400 border rounded-lg flex-1"></textarea>
+                    class="border-gray-400 border rounded-lg flex-1" />
+                <!--tool bar-->
                 <div class="flex flex-row my-1">
-                    <button
+                    <roundedButton
                         @click="clear"
-                        class="rounded-md bg-red-500 px-4 py-2 text-white ml-1.5">
+                        class="bg-red-500 hover:bg-red-400">
                         Clear
-                    </button>
+                    </roundedButton>
                     <div class="flex-1"></div>
                     <input
                         type="file"
                         id="open-file-dialog"
                         accept=".mdp"
                         v-show="false" />
-                    <button
+                    <roundedButton
                         @click="open"
-                        class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
+                        class="bg-blue-500 hover:bg-blue-400">
                         Open
-                    </button>
+                    </roundedButton>
                     <a v-show="false" id="link" />
-                    <button
-                        @click="submitChanges"
-                        class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
-                        submitChanges
-                    </button>
-                    <button
-                        @click="copy"
-                        class="rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
+                    <roundedButton
+                        @click="save"
+                        class="bg-blue-500 hover:bg-blue-400 ml-1.5">
+                        Save
+                    </roundedButton>
+                    <roundedButton
+                        @click="navigator.clipboard.writeText(mdp.str)"
+                        class="bg-blue-500 hover:bg-blue-400 ml-1.5">
                         Copy
-                    </button>
+                    </roundedButton>
                 </div>
             </div>
             <!--right part-->
             <div class="flex flex-col w-6/12 h-full mx-1.5">
                 <!--search-->
-                <div class="flex flex-row">
-                    <input
-                        type="text"
-                        v-model="search"
-                        class="rounded-md border-gray-400 border flex-1 px-1 py-1"
-                        placeholder="Search for section" />
-                </div>
+                <searchBox v-model="search" />
                 <!--scroll bar-->
                 <div class="overflow-y-auto mt-1.5 h-0 flex-1">
                     <!--main option-->
                     <template v-for="section in mdp.obj">
                         <div
                             class="border-gray-400 rounded-lg border mb-1"
-                            v-if="contain(section.sectionName, search)">
-                            <div class="flex flex-row m-1">
+                            v-if="contain(section, search)">
+                            <div
+                                class="flex flex-row m-1"
+                                @click="
+                                    section.sectionActivated =
+                                        !section.sectionActivated
+                                ">
                                 <div>{{ section.sectionName }}</div>
                                 <div class="flex-1"></div>
-                                <input
-                                    type="checkbox"
-                                    v-model="section.sectionActivated" />
                             </div>
                             <div v-if="section.sectionActivated">
                                 <div class="bg-gray-400 h-px"></div>
                                 <div class="m-1">
                                     <template
                                         v-for="setting in section.sectionData">
-                                        <div class="flex flex-row">
-                                            <div>{{ setting.name }}</div>
-                                            <div class="flex-1"></div>
-                                            <chooser
-                                                v-bind:temp="setting.candidate"
-                                                v-model="
-                                                    setting.value
-                                                "></chooser>
+                                        <div
+                                            v-show="
+                                                containsIgnoreCase(
+                                                    setting.name,
+                                                    search
+                                                )
+                                            ">
+                                            <div class="flex flex-row">
+                                                <div>{{ setting.name }}</div>
+                                                <div class="flex-1"></div>
+                                                <chooser
+                                                    v-bind:temp="
+                                                        setting.candidate
+                                                    "
+                                                    v-model="setting.value" />
+                                            </div>
+                                            <div class="ml-2 text-slate-500">
+                                                {{ setting.comment }}
+                                            </div>
+                                            <div class="h-2"></div>
                                         </div>
-                                        <div class="ml-2 text-slate-500">
-                                            {{ setting.comment }}
-                                        </div>
-                                        <div class="h-2"></div>
                                     </template>
                                 </div>
                             </div>
                         </div>
                     </template>
                     <!--extra option-->
-                    <div class="border-gray-400 rounded-lg border mb-1">
+                    <div class="border-gray-400 rounded-lg border mb-1 select-none">
                         <div class="flex flex-row m-1">
                             <div>Extra options</div>
                             <div class="flex-1"></div>
