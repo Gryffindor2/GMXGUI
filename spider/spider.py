@@ -16,7 +16,6 @@ if response.status_code == 200:
 
         sectionName = section.h3.text[:-1]
         sectionTemplate['sectionName'] = sectionName.strip()
-        sectionTemplate['sectionActivated'] = False
         sectionTemplate['sectionData'] = []
 
         for option in section.find_all('dl', recursive=False):
@@ -65,6 +64,8 @@ if response.status_code == 200:
                     first_sentence = ''
 
             optionTemplate['defaultValue'] = defaultValue
+            if first_sentence == ".":
+                first_sentence = ""
             optionTemplate['comment'] = first_sentence
 
             

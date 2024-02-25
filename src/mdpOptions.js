@@ -1,7 +1,7 @@
 var mdpOptions = [
     {
         "sectionName": "Preprocessing",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "include",
@@ -23,7 +23,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Run control",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "integrator",
@@ -151,7 +151,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Langevin dynamics",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "bd-fric",
@@ -173,7 +173,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Energy minimization",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "emtol",
@@ -211,7 +211,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Shell Molecular Dynamics",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "niter",
@@ -233,7 +233,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Test particle insertion",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "rtpi",
@@ -247,7 +247,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Output control",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "nstxout",
@@ -333,7 +333,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Neighbor searching",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "cutoff-scheme",
@@ -397,7 +397,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Electrostatics",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "coulombtype",
@@ -462,7 +462,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Van der Waals",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "vdwtype",
@@ -520,7 +520,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Tables",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "table-extension",
@@ -542,7 +542,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Ewald",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "fourierspacing",
@@ -632,7 +632,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Temperature coupling",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "ensemble-temperature-setting",
@@ -722,7 +722,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Pressure coupling",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "pcoupl",
@@ -796,7 +796,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Simulated annealing",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "annealing",
@@ -837,7 +837,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Velocity generation",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "gen-vel",
@@ -869,7 +869,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Bonds",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "constraints",
@@ -950,7 +950,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Energy group exclusions",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "energygrp-excl",
@@ -964,7 +964,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Walls",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "nwall",
@@ -1029,7 +1029,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "COM pulling",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "pull",
@@ -1306,7 +1306,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "AWH adaptive biasing",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "awh",
@@ -1524,7 +1524,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Enforced rotation",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "rotation",
@@ -1668,7 +1668,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "NMR refinement",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "disre",
@@ -1771,7 +1771,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Free energy calculations",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "free-energy",
@@ -2045,7 +2045,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Expanded Ensemble calculations",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "nstexpanded",
@@ -2239,7 +2239,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Non-equilibrium MD",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "acc-grps",
@@ -2293,7 +2293,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Electric fields",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "electric-field-x",
@@ -2323,7 +2323,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Mixed quantum/classical molecular dynamics",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "QMMM-grps",
@@ -2346,7 +2346,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Computational Electrophysiology",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "swapcoords",
@@ -2524,7 +2524,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "Density-guided simulations",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "density-guided-simulation-active",
@@ -2649,7 +2649,7 @@ var mdpOptions = [
     },
     {
         "sectionName": "QM/MM simulations with CP2K Interface",
-        "sectionActivated": false,
+        
         "sectionData": [
             {
                 "name": "qmmm-cp2k-active",

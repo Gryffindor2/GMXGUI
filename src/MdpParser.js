@@ -2,6 +2,10 @@ import mdpOptions from "./mdpOptions.js";
 class MdpParser{
     constructor(){
         this.mdp = mdpOptions;
+        for(var i = 0; i < this.mdp.length; i++){
+            this.mdp[i].sectionActivated = false;
+            this.mdp[i].sectionActivatedChanged = false;
+        }
         this.extra = [];
     }
 

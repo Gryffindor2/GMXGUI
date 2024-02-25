@@ -40,6 +40,9 @@ const save = () => {
 };
 
 const deleteStep = (index) => {
+    if(mdSteps.length == 1){
+        return;
+    }
     currentStep.value = -1;
     clear();
     mdSteps.splice(index, 1);
@@ -50,9 +53,21 @@ const containsIgnoreCase = (str, search) => {
 };
 
 const contain = (section, target) => {
+    if (target == null || target == ""){
+        if(section.sectionActivatedChanged){
+            section.sectionActivated = false;
+            section.sectionActivatedChanged = false;
+        }
+        return true;
+    }
+
     for (var i = 0; i < section.sectionData.length; i++) {
         var item = section.sectionData[i];
         if (containsIgnoreCase(item.name, target)) {
+            if(section.sectionActivated == false){
+                section.sectionActivatedChanged = true;
+            }
+            section.sectionActivated = true;
             return true;
         }
     }
@@ -177,10 +192,9 @@ const newStep = () => {
                         </div>
                     </div>
                 </template>
-
                 <div
                     @click="newStep()"
-                    class="rounded-md border-blue-500 text-blue-500 grid items-center text-center border-2 h-28 w-10 shrink-0">
+                    class="select-none rounded-md border-blue-500 text-blue-500 grid items-center text-center border-2 h-28 w-10 shrink-0">
                     +
                 </div>
             </div>
