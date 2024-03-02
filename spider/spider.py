@@ -2,7 +2,8 @@ import requests
 import json
 from bs4 import BeautifulSoup
 
-url = 'https://manual.gromacs.org/documentation/2023/user-guide/mdp-options.html'
+version = "2023"
+url = 'https://manual.gromacs.org/documentation/' + version + '/user-guide/mdp-options.html'
 output_file = open('./src/mdpOptions.js', 'w')
 
 response = requests.get(url)

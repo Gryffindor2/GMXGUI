@@ -9,6 +9,7 @@ import textBox from "./components/textBox.vue";
 import combobox from "./components/combobox.vue";
 import copyright from "./components/copyright.vue";
 import MDScript from "./gmxTools/MDScript.js";
+import mdpTemplates from "./mdpTemplates";
 
 import { saveAs } from "file-saver";
 import Chooser from "./components/chooser.vue";
@@ -22,18 +23,28 @@ const search = ref("");
 const extraVisiable = ref(false);
 const currentStep = ref(0);
 const mdSteps = reactive([{ type: "mdrun", colapsed: true, data: {} }]);
-var cleared = false;
+const templateName = ref("");
+var changed = false;
 
 const clear = () => {
     mdp.clear();
 };
 
 const changeTemplate = (template) => {
-    cleared = true;
+    console.log(2);
     clear();
     mdp.str = template;
+    console.log(3);
 };
 
+const searchTemplate = (templateName) => {
+    for (var i = 0; i < mdpTemplates.length; i++) {
+        if (mdpTemplates[i].name == templateName) {
+            return mdpTemplates[i].temp;
+        }
+    }
+    return "";
+}
 const save = () => {
     var blob = new Blob([mdp.str], { type: "text/plain;charset=utf-8" });
     saveAs(blob, "md.mdp");
@@ -93,15 +104,16 @@ onMounted(() => {
 });
 
 watch(mdp, () => {
+    console.log(currentStep.value);
     if(currentStep.value == -1) {
         return;
     }
-    if (cleared == true) {
-        cleared = false;
+    if(changed == true){
+        changed = false
         return;
     }
-    var t = document.getElementById("mdp").value;
-    mdSteps[currentStep.value].data.mdp = t;
+    console.log("4");
+    mdSteps[currentStep.value].data.mdp = mdp.str;
 });
 
 const updateExtra = () => {
@@ -130,6 +142,8 @@ const newStep = () => {
         data: {},
     });
 };
+
+
 </script>
 
 <template>
@@ -157,8 +171,10 @@ const newStep = () => {
                     <div
                         class="mr-1.5 flex flex-row rounded-md border-blue-400 border h-28 select-none"
                         v-on:click="
-                            currentStep = index;
-                            changeTemplate(step.data.mdp);
+                                currentStep = index;
+                                changed = true;
+                                changeTemplate(mdSteps[index].data.mdp, true);
+                                changed = false;
                         "
                         v-on:contextmenu.prevent="deleteStep(index)"
                         >
@@ -175,9 +191,6 @@ const newStep = () => {
 
                         <div v-show="!step.colapsed" class="overflow-auto">
                             <mdrun
-                                v-on:template-change="
-                                    changeTemplate(step.data.mdp)
-                                "
                                 v-if="step.type == 'mdrun'"
                                 v-model="step.data" />
                             <editconf
@@ -202,10 +215,18 @@ const newStep = () => {
         <div class="flex flex-row flex-1 h-0 mt-1.5">
             <!--left part-->
             <div class="flex flex-col w-6/12 mx-1.5">
+                <select 
+                    class="border-gray-400 border px-1 py-1 rounded-md"
+                    v-model="templateName"
+                    @change="changeTemplate(searchTemplate(templateName));">
+                    <template v-for="temp in mdpTemplates">
+                        <option :value="temp.name">{{ temp.name }}</option>
+                    </template>
+                </select>
                 <textarea
                     id="mdp"
                     v-model="mdp.str"
-                    class="border-gray-400 border rounded-lg flex-1" />
+                    class="border-gray-400 border rounded-lg flex-1 mt-1.5" />
                 <!--tool bar-->
                 <div class="flex flex-row my-1">
                     <roundedButton
