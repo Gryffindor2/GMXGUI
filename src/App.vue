@@ -23,7 +23,8 @@ const search = ref("");
 const extraVisiable = ref(false);
 const currentStep = ref(0);
 const mdSteps = reactive([{ type: "mdrun", colapsed: true, data: {} }]);
-const templateName = ref("");
+const templateName = ref("Template");
+const templateVisible = ref(false);
 var changed = false;
 
 const clear = () => {
@@ -31,10 +32,8 @@ const clear = () => {
 };
 
 const changeTemplate = (template) => {
-    console.log(2);
     clear();
     mdp.str = template;
-    console.log(3);
 };
 
 const searchTemplate = (templateName) => {
@@ -104,7 +103,6 @@ onMounted(() => {
 });
 
 watch(mdp, () => {
-    console.log(currentStep.value);
     if(currentStep.value == -1) {
         return;
     }
@@ -112,7 +110,6 @@ watch(mdp, () => {
         changed = false
         return;
     }
-    console.log("4");
     mdSteps[currentStep.value].data.mdp = mdp.str;
 });
 
@@ -147,8 +144,8 @@ const newStep = () => {
 </script>
 
 <template>
-
-    <div class="flex flex-col h-screen w-screen">
+    <div class="flex flex-col h-screen w-screen"
+        @click="templateVisible=false">
         <!--copyright-->
         <copyright />
         <!--md file generator-->
@@ -215,14 +212,24 @@ const newStep = () => {
         <div class="flex flex-row flex-1 h-0 mt-1.5">
             <!--left part-->
             <div class="flex flex-col w-6/12 mx-1.5">
-                <select 
-                    class="border-gray-400 border px-1 py-1 rounded-md"
-                    v-model="templateName"
-                    @change="changeTemplate(searchTemplate(templateName));">
-                    <template v-for="temp in mdpTemplates">
-                        <option :value="temp.name">{{ temp.name }}</option>
-                    </template>
-                </select>
+                <div @click.stop="" class="flex flex-col relative">
+                    <div class="border-gray-400 border px-1 py-1 rounded-md text-center"
+                        @click="templateVisible=!templateVisible">
+                        {{ templateName }}
+                    </div>
+                    <div class="flex flex-col absolute border-gray-400 border px-1 py-1 rounded-md w-full bg-white"
+                        v-show="templateVisible">
+                        <template v-for="temp in mdpTemplates">
+                            <button 
+                                class="hover:bg-gray-200 rounded-md py-1"
+                                @click="templateVisible=false;
+                                        templateName=temp.name;
+                                        changeTemplate(searchTemplate(templateName));">
+                                {{ temp.name }}
+                            </button>
+                        </template>
+                    </div> 
+                </div>
                 <textarea
                     id="mdp"
                     v-model="mdp.str"
