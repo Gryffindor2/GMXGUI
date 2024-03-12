@@ -12,7 +12,7 @@ export default defineConfig({
       devOptions: {
           enabled: true
       },
-      includeAssets: ['/static/images/logo.png'],
+      includeAssets: ['/public/static/images/logo.png'],
       manifest: {
           name: 'GROMACS GUI',
           short_name: "GMX GUI",
@@ -22,7 +22,7 @@ export default defineConfig({
           background_color: "#F3F3F3",
           icons: [
               {
-                  src: "/static/images/logo.png",
+                  src: "/public/static/images/logo.png",
                   sizes: "1024x1024",
                   type: "image/png"
               }
