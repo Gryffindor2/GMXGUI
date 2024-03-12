@@ -217,7 +217,7 @@ const newStep = () => {
                         @click="templateVisible=!templateVisible">
                         {{ templateName }}
                     </div>
-                    <div class="flex flex-col absolute border-gray-400 border px-1 py-1 rounded-md w-full bg-white"
+                    <div class="drop-shadow-md flex flex-col absolute border-gray-400 border px-1 py-1 rounded-md w-full bg-white"
                         v-show="templateVisible">
                         <template v-for="temp in mdpTemplates">
                             <button 
@@ -235,7 +235,7 @@ const newStep = () => {
                     v-model="mdp.str"
                     class="border-gray-400 border rounded-lg flex-1 mt-1.5" />
                 <!--tool bar-->
-                <div class="flex flex-row my-1">
+                <div class="flex flex-row my-1 overflow-auto">
                     <roundedButton
                         @click="clear"
                         class="bg-red-500 hover:bg-red-400">
@@ -249,7 +249,7 @@ const newStep = () => {
                         v-show="false" />
                     <roundedButton
                         @click="open"
-                        class="bg-blue-500 hover:bg-blue-400">
+                        class="bg-blue-500 hover:bg-blue-400 ml-1.5">
                         Open
                     </roundedButton>
                     <a v-show="false" id="link" />
@@ -318,10 +318,8 @@ const newStep = () => {
                     </template>
                     <!--extra option-->
                     <div class="border-gray-400 rounded-lg border mb-1 select-none">
-                        <div class="flex flex-row m-1">
+                        <div class="flex flex-row m-1" @click="extraVisiable=!extraVisiable">
                             <div>Extra options</div>
-                            <div class="flex-1"></div>
-                            <input type="checkbox" v-model="extraVisiable" />
                         </div>
                         <div v-if="extraVisiable">
                             <div class="bg-slate-400 h-px"></div>
@@ -335,7 +333,7 @@ const newStep = () => {
                                     <div class="flex-1"></div>
                                     <button
                                         v-on:click="updateExtra"
-                                        class="mt-1 rounded-md bg-blue-500 px-4 py-2 text-white ml-1.5">
+                                        class="mt-1 rounded-md bg-blue-500 hover:bg-blue-400 px-4 py-2 text-white ml-1.5">
                                         Ok
                                     </button>
                                 </div>
